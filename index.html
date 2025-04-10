@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>リズム振動</title>
+<style>
+  /* 見た目を少し整えるためのオマケ（CSS） */
+  body { font-family: sans-serif; padding: 20px; }
+  button {
+    display: block; /* ボタンを縦に並べる */
+    font-size: 1.5em; /* 文字を大きく */
+    padding: 15px 30px; /* ボタンの内側の余白 */
+    margin-bottom: 15px; /* ボタン下の余白 */
+    width: 100%; /* 横幅いっぱい */
+    cursor: pointer; /* マウスカーソルを指マークに */
+  }
+</style>
+</head>
+<body>
+
+<h1>リズムを振動で感じよう！</h1>
+
+<button id="shibuButton">四分音符（ター）</button>
+<button id="hachibuButton">八分音符（タ）</button>
+<button id="nirenButton">二連符（タタ）</button>
+<button id="futenButton">付点四分＋八分（ターンタ）</button>
+<button id="stopButton">振動停止</button>
+
+<script>
+  // 各ボタン要素を取得する（idを使って見つける）
+  const shibuButton = document.getElementById('shibuButton');
+  const hachibuButton = document.getElementById('hachibuButton');
+  const nirenButton = document.getElementById('nirenButton');
+  const futenButton = document.getElementById('futenButton');
+  const stopButton = document.getElementById('stopButton');
+
+  // --- リズムの振動パターンを定義 ---
+  // 配列の中の数字は [振動する時間(ミリ秒), 停止する時間(ミリ秒), 振動する時間, 停止する時間, ...] の繰り返し
+  // 例: 500 = 0.5秒
+  const shibuPattern = [500]; // 0.5秒 振動
+  const hachibuPattern = [250]; // 0.25秒 振動
+  const nirenPattern = [250, 100, 250]; // 0.25秒 振動, 0.1秒 停止, 0.25秒 振動
+  const futenPattern = [375, 100, 125]; // 0.375秒 振動, 0.1秒 停止, 0.125秒 振動
+
+  // --- 各ボタンがクリックされたときの処理 ---
+  shibuButton.addEventListener('click', function() {
+    console.log('四分音符ボタンが押されました'); // 念のためコンソールにログ表示
+    navigator.vibrate(shibuPattern); // 四分音符のパターンで振動
+  });
+
+  hachibuButton.addEventListener('click', function() {
+    console.log('八分音符ボタンが押されました');
+    navigator.vibrate(hachibuPattern); // 八分音符のパターンで振動
+  });
+
+  nirenButton.addEventListener('click', function() {
+    console.log('二連符ボタンが押されました');
+    navigator.vibrate(nirenPattern); // 二連符のパターンで振動
+  });
+
+  futenButton.addEventListener('click', function() {
+    console.log('付点リズムボタンが押されました');
+    navigator.vibrate(futenPattern); // 付点リズムのパターンで振動
+  });
+
+  stopButton.addEventListener('click', function() {
+    console.log('停止ボタンが押されました');
+    navigator.vibrate(0); // 振動を停止（または空の配列 [] でもOK）
+  });
+
+  // --- スマホで振動APIが使えるかどうかの簡単なチェック ---
+  if (!('vibrate' in navigator)) {
+    alert('お使いのブラウザまたはデバイスは振動機能に対応していません。');
+  }
+
+</script>
+
+</body>
+</html>
